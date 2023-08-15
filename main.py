@@ -7,18 +7,25 @@ import sys
 sys.path.append("./cube_gym")
 from cube_gym.envs import CubeGym
 
-
+model_name = "sarsa"
 env = gym.make("cube_gym/CubeGym-v0", size=9)
 observation, info = env.reset()
 model = RL(env, env.nStates, env.nActions, discount=0.9)
 
-[Q, policy] = model.qLearning(current_state=info["current_state"], initialQ=np.zeros([env.nActions, env.nStates]),
-                nEpisodes=100000, nSteps=100000, epsilon=0.5)
+nEpisodes = 300000
+
+if model_name == "sarsa":
+    [Q, policy] = model.sarsa(current_state=info["current_state"], initialQ=np.zeros([env.nActions, env.nStates]),
+                    nEpisodes=nEpisodes, nSteps=500, epsilon=0.5)
+
+elif model_name == "qlearning":
+    [Q, policy] = model.qLearning(current_state=info["current_state"], initialQ=np.zeros([env.nActions, env.nStates]),
+                    nEpisodes=nEpisodes, nSteps=500, epsilon=0.5)
 
 reward, path = model.run_model(Q, info["current_state"])
 print(reward)
 legal_moves = {0: 'right', 1: 'up', 2: 'left', 3: 'down', 4: 'forward'}
-with open('qlearning' + f"{0.5}" + '.txt', 'w') as f:
+with open(model_name + f"-{0.5}" + f'-{nEpisodes}' + '.txt', 'w') as f:
     for item in path:
         f.write("%s" % str(item) + '    ' + '---->' + '     ' + legal_moves[item[1]] + '\n')
 print("\nQ-learning results")
