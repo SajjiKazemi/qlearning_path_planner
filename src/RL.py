@@ -96,7 +96,7 @@ class RL:
         while not done:
             action = np.argmax(Q[:, current_state-1])
             observation, reward, terminated, done, info = self.env.step(action)
-            self.env.render(mode='human')
+            self.env.render(mode='3d')
             time.sleep(1)
             current_state = info['next_state']
             total_reward = total_reward + reward
@@ -115,7 +115,8 @@ class RL:
             action = np.argmax(Q[:, current_state-1])
             observation, reward, terminated, done, info = self.env.step(action)
             current_state = info['next_state']
-            total_reward = total_reward + reward
+            total_reward = total_reward + (self.discount**(steps))*reward
+            #total_reward = total_reward + reward
         return total_reward, steps
 
     def check_convegence2(self, visit_numbers):
@@ -147,6 +148,8 @@ class RL:
             #     elif n <= nEpisodes:
             #         epsilon = epsilon/4
                 total_reward = 0
+                _ , info = self.env.reset(seed=np.random.randint(0, 100000))
+                current_state = info['current_state']
             #trial = 0
             #while not self.check_convegence2(visit_numbers):
             #    trial = trial + 1
