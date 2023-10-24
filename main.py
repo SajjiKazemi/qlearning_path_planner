@@ -1,18 +1,18 @@
 import gym
 import numpy as np
 
-from src.RL import RL
+from src.q_learning.RL import RL
 
 import sys
-sys.path.append("./cube_gym")
-from cube_gym.envs import CubeGym
+sys.path.append("./cube_gym/src/")
+from cube_gym.envs import cube_gym
 
 model_name = "sarsa"
 env = gym.make("cube_gym/CubeGym-v0", size=9)
 observation, info = env.reset()
 model = RL(env, env.nStates, env.nActions, discount=0.9)
 
-nEpisodes = 300000
+nEpisodes = 30
 
 if model_name == "sarsa":
     [Q, policy] = model.sarsa(current_state=info["current_state"], initialQ=np.zeros([env.nActions, env.nStates]),

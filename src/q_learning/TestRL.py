@@ -1,6 +1,6 @@
 import numpy as np
-import MDP
-import RL
+import q_learning.MDP as MDP
+import q_learning.RL as RL
 
 
 ''' Construct simple MDP as described in Lecture 16 Slides 21-22'''

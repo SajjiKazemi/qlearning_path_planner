@@ -2,11 +2,11 @@ from stable_baselines3 import DQN, PPO
 import gymnasium as gym
 # import gym
 
-from src.RL import RL
+from q_learning.RL import RL
 
 import sys
 sys.path.append("./cube_gym")
-from cube_gym.envs import CubeGym
+from src.cube_gym.envs import cube_gym
 
 env = gym.make("cube_gym/CubeGym-v0", size=9)
 env.reset()
